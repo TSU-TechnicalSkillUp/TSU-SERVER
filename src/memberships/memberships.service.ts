@@ -40,4 +40,13 @@ export class MembershipsService {
         .getOne()
     )
   }
+
+  checkMembership(email: string){
+    return(
+      this.memberRepository
+      .createQueryBuilder('membership')
+      .where('membership.email = :email', {email: email})
+      .getCount()
+    )
+  }
 }

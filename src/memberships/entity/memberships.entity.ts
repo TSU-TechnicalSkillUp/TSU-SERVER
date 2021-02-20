@@ -5,8 +5,8 @@ export class Membership {
   @PrimaryColumn()
   email: string;
 
-  @Column()
-  career: string;
+  @Column({type : "text"})
+  career: string[];
 
   @Column()
   techStack: string;

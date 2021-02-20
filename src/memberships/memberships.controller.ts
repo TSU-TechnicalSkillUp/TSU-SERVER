@@ -12,19 +12,20 @@ export class MembershipsController {
     private readonly membershipService: MembershipsService
     ) {}
 
-  @Get('gettoken')
-  getToekn(@Request() req){
-    const access_token = this.authService.makeAccessToken(req.body.email);
-    return access_token;
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get()
   getMembership(@Request() req) {
+    this.membershipService.checkMembership(req.body.email).then(result => {
+      if(result === 0){
+        // 회원가입
+      }
+      else{
+        // 로그인
+      }
+    })
     return this.membershipService.getMembership(req.body.email);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   createMembership(@Request() req) {
     return this.membershipService.createMembership(req.body);
