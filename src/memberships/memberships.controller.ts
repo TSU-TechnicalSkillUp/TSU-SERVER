@@ -17,22 +17,24 @@ export class MembershipsController {
     const access_token = this.authService.makeAccessToken(req.body.email);
     return access_token;
   }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   getMembership(@Request() req) {
-    // console.log(this.membershipService.getMembership(req.body.email));
     return this.membershipService.getMembership(req.body.email);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createMembership() {
-    return this.membershipService.createMembership();
+  createMembership(@Request() req) {
+    return this.membershipService.createMembership(req.body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put()
-  updateMembership() {
-    return this.membershipService.updateMembership();
-  }y
+  updateMembership(@Request() req) {
+    return this.membershipService.updateMembership(req.body);
+  }
 
   
 

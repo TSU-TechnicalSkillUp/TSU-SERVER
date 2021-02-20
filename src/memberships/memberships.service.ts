@@ -20,14 +20,16 @@ export class MembershipsService {
     );
   }
 
-  createMembership() {
-    //TODO
-    return "This will create membership";
+  async createMembership(membership: Membership): Promise<void> {
+    await this.memberRepository.save(membership);
   }
 
-  updateMembership() {
-    //TODO
-    return "This will update membership";
+  async updateMembership(membership: Membership): Promise<void> {
+    const membershipNew = await this.memberRepository.findOne(membership.email);
+    membershipNew.career = membership.career;
+    membershipNew.interestTech = membership.interestTech;
+    membershipNew.techStack = membership.techStack;
+    await this.memberRepository.save(membershipNew);
   }
 
   findOneByEmail(email: string) : Promise<any>{
