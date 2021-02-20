@@ -1,13 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { Membership } from './entity/memberships.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MembershipsService {
-  private memberships: Membership[] = [];
+  constructor(
+    @InjectRepository(Membership)
+    private memberRepository: Repository<Membership>,
+  ) { }
 
-  getMembership() {
+  getMembership(email: string): Promise<Membership> {
     //TODO
-    return "This will get membership";
+    return (
+      this.memberRepository
+      .createQueryBuilder('membership')
+      .where('membership.email = :email', { email: email })
+      .getOne()
+    );
   }
 
   createMembership() {
@@ -18,5 +28,14 @@ export class MembershipsService {
   updateMembership() {
     //TODO
     return "This will update membership";
+  }
+
+  findOneByEmail(email: string) : Promise<any>{
+    return (
+      this.memberRepository
+        .createQueryBuilder('membership')
+        .where('membership.email = :email', { email: email })
+        .getOne()
+    )
   }
 }
